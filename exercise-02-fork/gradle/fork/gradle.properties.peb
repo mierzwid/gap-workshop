@@ -1,0 +1,21 @@
+# AEM configuration
+notifier.enabled=true
+
+{% if instanceAuthorHttpUrl is not empty %}
+instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
+instance.local-author.type={{instanceType}}
+instance.local-author.runModes={{instanceRunModes}}
+instance.local-author.jvmOpts={{instanceJvmOpts}}
+{% endif %}
+
+{% if instanceType == 'local' %}
+localInstance.source={{ localInstanceSource }}
+localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
+localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
+{% endif %}
+
+# Performance tuning
+org.gradle.daemon=true
+org.gradle.parallel=true
+org.gradle.caching=true
+org.gradle.jvmargs=-Xmx3072m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8

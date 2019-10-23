@@ -8,6 +8,8 @@ build
 #GAP
 .instance
 .environment
+gradle.properties
 
 #Mac
 .DS_Store
+
