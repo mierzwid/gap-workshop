@@ -1,6 +1,6 @@
 # Exercise 2: Fork Plugin
 
-We use Fork Plugin as the "Interactive gradle.properties file generator". 
+We use the [Fork Plugin](https://github.com/neva-dev/gradle-fork-plugin) as the "Interactive gradle.properties file generator". 
 
 ## Create `gradle.properties` template
 
