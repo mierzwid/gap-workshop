@@ -33,7 +33,7 @@ org.gradle.jvmargs=-Xmx3072m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryErro
 
 ## Configure properties templating
 
-`vim gradle/fork.gradle.kts`
+`vim gradle/properties.gradle.kts`
 
 ```kotlin
 import com.cognifide.gradle.aem.common.instance.local.Source

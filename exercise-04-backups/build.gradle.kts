@@ -8,7 +8,7 @@ plugins {
 
 version = "0.0.1"
 
-apply(from = "gradle/fork.gradle.kts")
+apply(from = "gradle/properties.gradle.kts")
 
 aem {
     fileTransfer {

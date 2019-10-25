@@ -1,4 +1,4 @@
-# Exercise 3: AEM backups using [Instance Plugin](https://github.com/Cognifide/gradle-aem-plugin#instance-plugin)
+# Exercise 4: AEM backups using [Instance Plugin](https://github.com/Cognifide/gradle-aem-plugin#instance-plugin)
 
 Setup of an AEM instance(s) can be time consuming. Especially when we have both author and publish. Additionally, we may want to keep snapshots of a specific state of AEM instance, for reference, or to make development environments equal. This is time when [instanceBackup](https://github.com/Cognifide/gradle-aem-plugin#task-instancebackup) task comes into play. 
 
@@ -45,7 +45,7 @@ Yes, it is invoking `intanceCreate` plus applying some additional instance confi
 
 To be more specific, `instanceCreate` takes into consideration `localInstance.source` property. In our case it is set to `auto` which means:
 
-"Create instances from most recent backup (remote or local) or fallback to creating from the scratch if there is no backup available. Default mode."
+`Create instances from most recent backup (remote or local) or fallback to creating from the scratch if there is no backup available. Default mode.`
 
 That will work for us. let's exercise it and first destroy what we have:
 
@@ -68,6 +68,11 @@ Let's extend our properties template `gradle/fork/gradle.properties.peb` adding 
 ...
 localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
+```
+
+Additionally, let's improve our properties configuration in `gradle/properties.gradle.kts` by adding on the top:
+
+```kotlin
 ```
 
 
