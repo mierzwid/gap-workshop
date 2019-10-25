@@ -59,18 +59,23 @@ Additionally, I have exactly the same state that was saved during backup, I migh
 
 ## Remote backups
 
-Working with remote backups is just as simple. There is only one configuration option to be specified `localInstance.backup.uploadUrl`
+Working with remote backups is just as simple. There is only one configuration option to be specified `localInstance.backup.uploadUrl` plus credentials if those are required.
 
-Let's extend our properties template `gradle/fork/gradle.properties.peb` adding this option:
+Let's extend our properties template `gradle/fork/gradle.properties.peb` adding those options:
 
 ```properties
+backup.user={{backupUser}}
+backup.password={{backupPassword}}
+
+...
+
 {% if instanceType == 'local' %}
 ...
 localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
 ```
 
-Additionally, let's improve our properties configuration in `gradle/properties.gradle.kts` by adding on the top:
+Additionally, let's improve our properties UI configuration in `gradle/properties.gradle.kts` by adding on the top:
 
 ```kotlin
 configure<ForkExtension> {
@@ -82,7 +87,7 @@ configure<ForkExtension> {
             ...
 ```
 
-Where to backup? GAP supports SFTP, SMB protocols for uploads. For the purpose of our tests we can use Docker container with SFTP server on:
+Where to backup? GAP supports SFTP & SMB protocols for uploads. For the purpose of our tests we can use Docker container with SFTP server on:
 
 `docker run -p 22:22 -d atmoz/sftp foo:pass:::upload`
 
