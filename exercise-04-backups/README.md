@@ -54,7 +54,7 @@ That will work for us. let's exercise it and first destroy what we have:
 then type
 `./gradlew :instanceSetup`
 
-Take a look at timing. It took on my machine (MacBook Pro, 3,1 GHz Core i5, 16GB of RAM, SSD) exactly 2 minutes in comparison to over 5 minutes when starting from scratch.
+Take a look at timing. It took on my machine (MacBook Pro, 3,1 GHz Core i5, 16GB of RAM, SSD) exactly 2 minutes in comparison to over 5 minutes when starting from scratch.  
 Additionally, I have exactly the same state that was saved during backup, I might have bundles, applications and content installed, etc. Saving time and reproducibility.
 
 ## Remote backups
@@ -73,6 +73,44 @@ localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 Additionally, let's improve our properties configuration in `gradle/properties.gradle.kts` by adding on the top:
 
 ```kotlin
+configure<ForkExtension> {
+    properties {
+        define(mapOf(
+            "backupUser" to { defaultValue = System.getProperty("user.name") },
+            "backupPassword" to { password() },
+            "localInstanceBackupUploadUri" to {},
+            ...
 ```
 
+Where to backup? GAP supports SFTP, SMB protocols for uploads. For the purpose of our tests we can use Docker container with SFTP server on:
 
+`docker run -p 22:22 -d atmoz/sftp foo:pass:::upload`
+
+Now we can run `./gradlew :props` to configure credentials (user `foo`, password `pass`) and backup upload URL (`sftp://localhost/upload`). 
+
+Fork plugin supports encryption, thus you can review `gradle.properties` file, it won't contain plaintext password. Next step is to enable Gradle to decode it. We need to jump into `build.gradle.kts`:
+ 
+```kotlin
+aem {
+    fileTransfer {
+        sftp {
+            user = the<PropsExtension>().get("backup.user")
+            password = the<PropsExtension>().get("backup.password")
+        }
+    }
+}
+```
+
+Those few lines will configure credentials for all SFTP connections established by GAP.
+
+To sum up what we just did:
+1. Started docker container `atmoz/sftp` with SFTP server on it.
+2. We Configured properties UI to ask for upload URL and credentials
+3. Said GAP how to decode the password using Fork plugin amenities.
+
+Now we can test this configuration, simply type:
+`./gradlew :instanceDown :instanceBackup`
+
+What happens now? Backup goes in the same way as before, first it prepares backup locally but additionally, at the end it uploads the backup file to configured URL.
+
+Now backup is accessible for download to all your team mates. Anyone at your team can have this configuration and all your backups will get uploaded to configured location. Each backup by default has timestamp included in its name this way even heavy collaboration is supported. What is convienient, when restoring from remote backup, GAP by default picks the most recent one to download so you can stay in sync!

@@ -12,10 +12,9 @@ apply(from = "gradle/properties.gradle.kts")
 
 aem {
     fileTransfer {
-        smb {
-            user = the<PropsExtension>().get("smb.user")
-            password = the<PropsExtension>().get("smb.password")
-            domain = "DOMAIN_NAME"
+        sftp {
+            user = the<PropsExtension>().get("backup.user")
+            password = the<PropsExtension>().get("backup.password")
         }
     }
 }

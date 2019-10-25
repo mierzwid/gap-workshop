@@ -1,8 +1,8 @@
 # AEM configuration
 notifier.enabled=true
 
-smb.user={{smbUser}}
-smb.password={{smbPassword}}
+backup.user={{backupUser}}
+backup.password={{backupPassword}}
 
 {% if instanceAuthorHttpUrl is not empty %}
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}

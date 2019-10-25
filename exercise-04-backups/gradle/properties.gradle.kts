@@ -5,8 +5,9 @@ import com.neva.gradle.fork.ForkExtension
 configure<ForkExtension> {
     properties {
         define(mapOf(
-                "smbUser" to { defaultValue = System.getProperty("user.name") },
-                "smbPassword" to { password() },
+                "backupUser" to { defaultValue = System.getProperty("user.name") },
+                "backupPassword" to { password() },
+                "localInstanceBackupUploadUri" to {},
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()
