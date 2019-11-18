@@ -1,11 +1,11 @@
 # Exercise 2: Fork Plugin
 
-We use the [Fork Plugin](https://github.com/neva-dev/gradle-fork-plugin) as the "Interactive gradle.properties file generator". 
+We use the [Fork Plugin](https://github.com/neva-dev/gradle-fork-plugin) as the "Interactive gradle.user.properties file generator". 
 
-## Create `gradle.properties` template
+## Create `gradle.user.properties` template
 
 `mkdir -p gradle/fork`
-`vim gradle/fork/gradle.properties.peb`
+`vim gradle/fork/gradle.user.properties.peb`
 
 ```properties
 # AEM configuration
@@ -23,12 +23,6 @@ localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
 {% endif %}
-
-# Performance tuning
-org.gradle.daemon=true
-org.gradle.parallel=true
-org.gradle.caching=true
-org.gradle.jvmargs=-Xmx3072m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
 ```
 
 ## Configure properties templating

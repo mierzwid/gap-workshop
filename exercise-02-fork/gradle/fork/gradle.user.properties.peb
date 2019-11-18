@@ -1,9 +1,6 @@
 # AEM configuration
 notifier.enabled=true
 
-backup.user={{backupUser}}
-backup.password={{backupPassword}}
-
 {% if instanceAuthorHttpUrl is not empty %}
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
 instance.local-author.type={{instanceType}}
@@ -15,11 +12,4 @@ instance.local-author.jvmOpts={{instanceJvmOpts}}
 localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
-localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
-
-# Performance tuning
-org.gradle.daemon=true
-org.gradle.parallel=true
-org.gradle.caching=true
-org.gradle.jvmargs=-Xmx3072m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8

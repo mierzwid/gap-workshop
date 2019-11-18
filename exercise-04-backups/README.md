@@ -106,7 +106,7 @@ aem {
 }
 ```
 
-Alternatively use command: `docker run -p 22:22 -d atmoz/sftp foo:pass:::upload`.
+Alternatively use command: `docker run -p 2222:22 -d atmoz/sftp foo:pass:::upload`.
 
 Now we can run `./gradlew :props` to configure credentials (user `foo`, password `pass`) and backup upload URL (`sftp://localhost/upload`). 
 
