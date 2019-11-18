@@ -3,7 +3,7 @@ plugins {
     id("com.cognifide.aem.common")
 }
 
-apply(from = "gradle/properties.gradle.kts")
+apply(from = "gradle/fork.gradle.kts")
 
 aem {
     // configuration to be added later

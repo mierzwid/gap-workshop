@@ -2,13 +2,12 @@ import com.neva.gradle.fork.PropsExtension
 
 plugins {
     id("com.neva.fork")
-    id("com.cognifide.aem.common")
     id("com.cognifide.aem.instance")
 }
 
 version = "0.0.1"
 
-apply(from = "gradle/properties.gradle.kts")
+apply(from = "gradle/fork.gradle.kts")
 
 aem {
     fileTransfer {
