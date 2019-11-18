@@ -104,6 +104,21 @@ When instance is up, then GAP is pre-installing CRX packages and performing inst
 
 Now we need to wait couple of minutes (5-10) - it is good time for a break.
 
+## Interactive logs monitoring
+
+Instead of manually looking for error entries in logs, GAP could do that automatically and in interactive manner.
+
+Simply run:
+
+```bash
+./gradlew instanceTail
+```
+
+And keep it running in the background. Since now, all errors occurring on running AEM instance will be immediately reported within OS notification / balloon.
+
+Notice that this tool could observe unlimited number of instances at once. No matter if instances are locally running or they are remote.
+Only requirement is to have them accessible over HTTP protocol (no SSH required) so that GAP could poll for new log entries automatically.
+
 ## Control tasks
 
 Let's review all the tasks available:
