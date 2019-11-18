@@ -24,8 +24,9 @@ aem {
         }
         instanceSatisfy {
             packages {
-                "dep.kotlin" { resolve("org.jetbrains.kotlin:kotlin-osgi-bundle:1.3.50") }
+                "dep.kotlin" { resolve("org.jetbrains.kotlin:kotlin-osgi-bundle:${Build.KOTLIN_VERSION}") }
                 "dep.acs-aem-commons" { download("https://github.com/Adobe-Consulting-Services/acs-aem-commons/releases/download/acs-aem-commons-4.0.0/acs-aem-commons-content-4.0.0-min.zip") }
+                "dep.groovy-console" { get("https://github.com/icfnext/aem-groovy-console/releases/download/14.0.0/aem-groovy-console-14.0.0.zip") }
             }
         }
         register("sftpServer") {
