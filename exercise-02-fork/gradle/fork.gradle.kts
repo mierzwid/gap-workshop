@@ -2,6 +2,7 @@ import com.cognifide.gradle.aem.common.instance.local.Source
 import com.neva.gradle.fork.ForkExtension
 
 // this is quirk of Gradle - we cannot access extensions name directly in a applied file
+// in a same way reading in applied file 'the<ForkExtension>().get(propertyName)
 configure<ForkExtension> {
     properties {
         define(mapOf(

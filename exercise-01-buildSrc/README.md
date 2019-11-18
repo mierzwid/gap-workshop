@@ -22,9 +22,9 @@ dependencies {
 ```kotlin
 dependencies {
     // Of course :-) Gradle AEM Plugin.
-    implementation("com.cognifide.gradle:aem-plugin:9.0.2")
+    implementation("com.cognifide.gradle:aem-plugin:9.0.3")
     // Then Gradle Fork Plugin to work with lots of properties we will need.  
-    implementation("com.neva.gradle:fork-plugin:4.0.0")
+    implementation("com.neva.gradle:fork-plugin:4.0.1")
     // Since we use Kotlin DSL in Gradle, as mentioned above
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
 }

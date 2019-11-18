@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.cognifide.gradle:aem-plugin:9.0.2")
-    implementation("com.neva.gradle:fork-plugin:4.0.0")
+    implementation("com.cognifide.gradle:aem-plugin:9.0.3")
+    implementation("com.neva.gradle:fork-plugin:4.0.1")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
 }
