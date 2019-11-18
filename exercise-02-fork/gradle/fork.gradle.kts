@@ -6,6 +6,17 @@ import com.neva.gradle.fork.ForkExtension
 configure<ForkExtension> {
     properties {
         define(mapOf(
+                "adUser" to {
+                    description = "AD user"
+                    defaultValue = System.getProperty("user.name")
+                },
+                "adPassword" to {
+                    description = "AD password"
+                    password()
+                },
+                "adDomain" to {
+                    description = "AD domain"
+                },
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()

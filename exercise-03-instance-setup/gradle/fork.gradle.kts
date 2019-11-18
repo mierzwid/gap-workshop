@@ -1,44 +1,3 @@
-# Exercise 2: Fork Plugin
-
-We use the [Fork Plugin](https://github.com/neva-dev/gradle-fork-plugin) as the "Interactive gradle.user.properties file generator". 
-
-## Create user-specific properties file template
-
-```
-mkdir -p gradle/fork
-vim gradle/fork/gradle.user.properties.peb
-```
-
-```pebble
-# Project specific configuration
-adUser={{adUser}}
-adPassword={{adPassword}}
-adDomain={{adDomain}}
-
-# AEM configuration
-notifier.enabled=true
-
-{% if instanceAuthorHttpUrl is not empty %}
-instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
-instance.local-author.type={{instanceType}}
-instance.local-author.runModes={{instanceRunModes}}
-instance.local-author.jvmOpts={{instanceJvmOpts}}
-{% endif %}
-
-{% if instanceType == 'local' %}
-localInstance.source={{ localInstanceSource }}
-localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
-localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
-{% endif %}
-```
-
-## Configure properties templating
-
-```
-vim gradle/fork.gradle.kts
-```
-
-```kotlin
 import com.cognifide.gradle.aem.common.instance.local.Source
 import com.neva.gradle.fork.ForkExtension
 
@@ -48,16 +7,16 @@ configure<ForkExtension> {
     properties {
         define(mapOf(
                 "adUser" to {
-                    description = "AD user" 
+                    description = "AD user"
                     defaultValue = System.getProperty("user.name")
                 },
                 "adPassword" to {
                     description = "AD password"
                     password()
-                },  
+                },
                 "adDomain" to {
                     description = "AD domain"
-                },           
+                },
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()
@@ -83,16 +42,3 @@ configure<ForkExtension> {
         ))
     }
 }
-```
-
-## Test properties setup
-
-`./gradlew :props`
-
-Please specify paths to AEM 6.5 distribution and licence and execute. As a result new `gradle.user.properties` file should be generated with properties values.
-
-Thanks to that, each new developer will have easy start joining your project despite the fact that we need to configure a lot.
-
-If you noticed that we could commit `gradle.user.properties` file - nice catch. Unfortunately, usually this file contains user credentials (we will see examples later on), so it is better to leave it outside VCS (put it in *.gitignore* file).
-
-Also notice that password are automatically encrypted by Fork plugin. Later on, we will need to decode them before using.

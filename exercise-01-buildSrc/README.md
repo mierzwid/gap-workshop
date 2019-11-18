@@ -1,23 +1,20 @@
 # Exercise 1: Configure plugins - buildSrc
 
-## Kotlin DSL plugin
+## Plugin repositories
 
-Since we use Kotlin DSL in Gradle we wil configure Kotlin DSL plugin to skip experimental API warnings, since GAP uses Coroutines API.
 ```kotlin
-plugins {
-    `kotlin-dsl`
-}
+repositories {
+    jcenter()
+    gradlePluginPortal()
 
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
-}
-
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
+    // For GAP
+    maven { url = uri("http://dl.bintray.com/cognifide/maven-public") }
+    // For Fork
+    maven { url = uri("https://dl.bintray.com/neva-dev/maven-public") }
 }
 ```
 
-## Other plugins and their versions
+## Plugins and their versions
 
 ```kotlin
 dependencies {
@@ -30,21 +27,9 @@ dependencies {
 }
 ```    
 
-## Plugin repositories
-
-```kotlin
-repositories {
-    gradlePluginPortal()
-    // For GAP
-    maven { url = uri("http://dl.bintray.com/cognifide/maven-public") }
-    // For Fork
-    maven { url = uri("https://dl.bintray.com/neva-dev/maven-public") }
-}
-```
-
 ## Test
 
-Now lets apply GAP and Fork plugins and check if we can configure them:
+Now let apply GAP common and Fork plugins and check if we can configure them:
 
 ```kotlin
 plugins {
