@@ -2,9 +2,11 @@
 
 Basically, building CRX package is simple. We need to put into ZIP JCR content and Vault metadata. And also ensure to append build OSGi bundle(s).
 Things are getting more complicated if we want to extract some CRX package contents to separate packages.
-So sometimes we want to have all-in-one package (which installation is fastest) and sometimes we want to skip reinstalling some contents to prevent losing content on running AEM instance.
+So sometimes we want to have all-in-one package (which installation is fastest) and sometimes we want to skip reinstalling some contents 
+to prevent losing content on running AEM instance and in the end installing few separate packages.
 
-GAP is addressing such requirements in a way of full dynamism in composing CRX packages from multiple JCR roots, bundles, etc without a need for restructuring a project.
+GAP is addressing such requirements in a way of full dynamism in composing CRX packages from multiple JCR roots, bundles etc 
+without a need for restructuring a project.
 
 ## Building CRX package with content only
 
@@ -48,7 +50,7 @@ Let's build a package:
 ./gradlew :packageCompose
 ```
 
-See that, built package name derived name from project name (*exercise-05-package-building*). We could override it by writing:
+See that, built package name is derived from project name (*exercise-05-package-building*). We could override it by writing:
 
 ```kotlin
 aem {
@@ -60,14 +62,14 @@ aem {
 }
 ```
 
-Still, version, classifier, extension remains same. That's because `archiveBaseName` instead of `archiveName` was overridden.
+Still, version, classifier and extension remains same. That's because `archiveBaseName` instead of `archiveName` was overridden.
 It is good to know the difference!
 
 Notice that, in the end of building package, it is automatically validated.
 Validation requires up-to-date node types definitions stored in built package. 
 However, this kind of file is also synchronized from running AEM instance automatically.
 
-During regular development, just remember to save generated file in VCS (*gradle/package/nodetypes.sync.cnd*) 
+During regular development just remember to save that generated file in VCS (*gradle/package/nodetypes.sync.cnd*) 
 so that building CRX package without any AEM instance available (e.g on Jenkins) will be also possible.
 
 ## Building CRX package with OSGi bundle
@@ -90,8 +92,8 @@ plugins {
 }
 ```
 
-Be aware that bundle plugin under the neath is applying official Gradle Java Plugin and GAP package plugin.
-Its main functionality is too run [BND tool](https://bnd.bndtools.org/) to generate OSGi specific attributes for built JAR.
+Be aware that bundle plugin underneath is applying official Gradle Java Plugin and GAP package plugin.
+Its main functionality is running [BND tool](https://bnd.bndtools.org/) to generate OSGi specific attributes for built JAR.
 
 GAP is strongly using paradigm *convention over configuration*. Once we specify:
 
@@ -99,7 +101,7 @@ GAP is strongly using paradigm *convention over configuration*. Once we specify:
 group = "com.company.workshop.aem"
 ```
 
-Then all other values OSGi specific attributes in MANIFEST.mf file like: 
+Then all other values / OSGi specific attributes in MANIFEST.mf file like: 
 *Bundle-SymbolicName*, *Export-Package*, *Sling-Model-Packages* and more will be automatically assigned.
 
 So that the only thing left is to add some code, let's create some OSGi service:
@@ -115,7 +117,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component(service = HelloService.class)
-public class HelloService extends SlingFilter {
+public class HelloService {
 
     private static final Logger LOG = LoggerFactory.getLogger(HelloService.class);
 
@@ -124,10 +126,9 @@ public class HelloService extends SlingFilter {
         LOG.info("Hello service called!");
     }
 }
-
 ```
 
-And declare compile time dependencies and repositories from which they can be downloaded:
+And declare compile time dependencies and repositories from which they could be downloaded:
 
 ```kotlin
 repositories {

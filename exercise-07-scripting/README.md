@@ -30,7 +30,7 @@ Let's create sample script in file *gradle/groovyScript/hello.groovy*:
 println 'Hello world from inside separate file!'
 ```
 
-Then once again in *build.gradle.kts*:
+Then let's reference it in *build.gradle.kts*:
 
 ```kotlin
 aem {
@@ -41,6 +41,8 @@ aem {
                     groovyConsole.evalCode("""
                         println 'Hello world from inline code!'
                     """)
+
+                    groovyConsole.evalScript("hello.groovy")
                 } 
             }       
         }   
@@ -49,6 +51,10 @@ aem {
 ```
 
 ## Backup all sites stored on AEM instance
+
+Example below demonstrates how to create backup of content when we does not know which repository paths should be considered.
+GAP offers easy to use `repository` instance service allowing CRUD operations and traversing content. 
+Also provides `packageManager` instance service which has method `download` useful for building CRX packages on-the-fly.
 
 ```kotlin
 aem {

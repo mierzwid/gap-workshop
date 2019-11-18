@@ -28,7 +28,7 @@ GAP supports 2 types of JCR content transports.
 
 By default, GAP is using *package_download* transport as of it is much more quick,
 because Vault is transferring files one by one using multiple HTTP requests.
-Package download is using AEM instance to create appropriate package so that it is much less using network.
+Package download is using AEM instance to create appropriate package so that it is much less often using network.
 
 Try playing with VLT checkout mode and compare results:
 
@@ -44,9 +44,18 @@ If there is available file named *filter.sync.xml* it has precedence in case of 
 used when installing CRX package.
 
 It could be used e.g to filter out DAM rendition files.
+Simply copy origin file *filter.xml* then specify exclusions.
 
 *src/main/content/META-INF/vault/filter.sync.xml*
 
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/content/dam/workshop">
+        <include pattern="/content/dam/workshop(/.*)?" />
+        <exclude pattern="/content/dam/workshop/.*/renditions/.*"/>
+        <include pattern="/content/dam/workshop/.*/renditions/original(.*)?"/>
+    </filter>
+</workspaceFilter>
 
 ```
