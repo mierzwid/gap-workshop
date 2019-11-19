@@ -168,6 +168,48 @@ To build CRX package containing that bundle, simply write as previously:
 ./gradlew :packageCompose
 ```
 
+OK, now let's say that we need to use some Java classes being a part of Jar which is not OSGi bundle.
+
+```kotlin
+aem {
+    tasks {
+        bundleExportEmbed("org.hashids:hashids:1.0.1", "org.hashids")
+    }   
+}
+```
+
+And let's use it:
+
+```java
+class HelloService {
+    private static final Hashids HASHER = new Hashids();
+    
+    protected void activate() {
+        LOG.info("Hash ID for current timestamp is '{}'", HASHER.encode(System.currentTimeMillis()));
+    }
+}
+```
+
+Method `bundleExportEmbed` is doing 2 things:
+
+* it is appending to OSGi manifest attribute `Export-Package` package to be embed.
+* it is adding a project dependency to `compileOnly` configuration.
+
+Another case could be to include additional bundle into built CRX package.
+
+Simple use `fromJar` method of `packageCompose` task:
+
+```kotlin
+aem {
+    tasks {
+        packageCompose {
+            fromJar("org.jsoup:jsoup:1.10.2")
+            fromJar("com.github.mickleroy:aem-sass-compiler:1.0.1")
+        }   
+    }   
+}
+```
+
 ## Deploying CRX packages
 
 Simply write:
