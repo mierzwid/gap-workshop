@@ -4,7 +4,7 @@ adPassword={{adPassword}}
 adDomain={{adDomain}}
 
 sftpUser={{sftpUser}}
-sftpPassword={{sftpUser}}
+sftpPassword={{sftpPassword}}
 
 # AEM configuration
 notifier.enabled=true
