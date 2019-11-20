@@ -94,6 +94,22 @@ aem {
 }
 ```
 
+Or by using shorthand syntax:
+
+```kotlin
+aem {
+    tasks {
+        instanceSatisfy {
+            packages {
+                "dep.kotlin"("org.jetbrains.kotlin:kotlin-osgi-bundle:${Build.KOTLIN_VERSION}")
+                "dep.acs-aem-commons"("https://github.com/Adobe-Consulting-Services/acs-aem-commons/releases/download/acs-aem-commons-4.0.0/acs-aem-commons-content-4.0.0-min.zip")
+                "dep.groovy-console"("https://github.com/icfnext/aem-groovy-console/releases/download/14.0.0/aem-groovy-console-14.0.0.zip")
+            }
+        }
+    }   
+}
+```
+
 OK! Now instance configuration is done. Now it's time for running command:
 
 `./gradlew instanceSetup`
