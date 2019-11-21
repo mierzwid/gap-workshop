@@ -89,7 +89,7 @@ configure<ForkExtension> {
 
 `./gradlew :props`
 
-Please specify paths to AEM 6.5 distribution and licence and execute. As a result new `gradle.user.properties` file should be generated with properties values.
+Please specify required credentials and paths to AEM 6.5 distribution and licence and execute. As a result new `gradle.user.properties` file should be generated with properties values.
 
 Thanks to that, each new developer will have easy start joining your project despite the fact that we need to configure a lot.
 
