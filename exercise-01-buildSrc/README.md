@@ -45,3 +45,5 @@ fork {
     // configuration to be added later
 }
 ```
+
+Run `./gradlew tasks` and check for "Aem tasks" and "Fork tasks" sections.
