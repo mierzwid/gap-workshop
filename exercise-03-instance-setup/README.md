@@ -1,12 +1,12 @@
 # Exercise 3: AEM instance setup using [Instance Plugin](https://github.com/Cognifide/gradle-aem-plugin#instance-plugin)
 
-Instance setup can be repeatable task. As most of repeatable tasks, it may be good to automate it.
+Instance setup can be a repeatable task. Like most of such tasks, it may be good to automate it.
 
-GAP calls itself "Swiss army knife for AEM related automation." In case of instance setup, it is more like a doctor with AEM specialization (aemologist). GAP knows how to diagnose AEM state, what AEM can handle and when. It is patient when it is needed and demanding when it is possible to ensure best performance.
+GAP calls itself a "Swiss army knife for AEM related automation." In the case of instance setup, it is more like a doctor with AEM specialization (aemologist). GAP knows how to diagnose AEM state, what AEM can handle and when. It is patient when it is needed and demanding when it is possible to ensure the best performance.
 
 ## Configuring file transfer
 
-As of AEM instance files need to be protected by auth, we need to specify credentials according to instance file URLs.
+As of AEM instance, files need to be protected by auth, we need to specify credentials according to instance file URLs.
 
 To configure same credentials for protocols SMB, SFTP and HTTP with basic auth, append snippet below to *build.gradle.kts*:
 
@@ -22,11 +22,11 @@ Notice that accessing properties by `forkProps[name]` (instead of `project.findP
 
 ## Understanding configuration in `gradle.user.properties`
 
-Our generated properties file contains section which directly configures our local AEM author instance. We skipped publish on purpose, to leave your machine few free bytes of RAM.
+Our generated properties file contains a section that directly configures our local AEM author instance. We skipped publish on purpose, to leave your machine a few free bytes of RAM.
 
 Since `type` option is set to `local` other options like `runModes` and `jvmOpts` are vital.
 
-Additionally, we have `localInstance.source` set to `auto`. GAP will then try to find the quickest way to setup our instance - preferably from backup. Knowing, there are no backups yet, we can expect creation of a fresh instance from `cq-quickstart-6.5.0.jar` file.
+Additionally, we have `localInstance.source` set to `auto`. GAP will then try to find the quickest way to setup our instance - preferably from backup. Knowing, there are no backups yet, we can expect the creation of a fresh instance from `cq-quickstart-6.5.0.jar` file.
 
 ```properties
 instance.local-author.httpUrl=http://localhost:4502
@@ -39,7 +39,7 @@ localInstance.quickstart.jarUrl=/Users/username/aem/6.5/cq-quickstart-6.5.0.jar
 localInstance.quickstart.licenseUrl=/Users/username/aem/6.5/license.properties
 ```
 
-Quite a few options, and this is only one instance. Happily, we need to configure this only once.
+Quite a few options and this is only one instance. Happily, we need to configure this only once.
 
 Notice: It is also possible to configure all of this in `build.gradle.kts` file (see [docs](https://github.com/Cognifide/gradle-aem-plugin#instance-plugin)).
  
@@ -54,8 +54,8 @@ plugins {
 }
 ```
 
-Generally, that's it. However OOTB AEM instance has disabled CRXDE Lite. 
-Let's enable it by defining step in `instanceProvision` task:
+Generally, that's it. However, OOTB AEM instance has disabled CRXDE Lite. 
+Let's enable it by defining a step in `instanceProvision` task:
 
 ```kotlin
 aem {
@@ -77,24 +77,8 @@ aem {
 }
 ```
 
-Just for illustration purposes, let's also have Groovy Console and Kotlin language support OSGi bundle pre-installed on instance. 
+Just for illustration purposes, let's also have Groovy Console and Kotlin language support OSGi bundle pre-installed on the instance. 
 It could be done by simply configuring satisfy task by snippet below:
-
-```kotlin
-aem {
-    tasks {
-        instanceSatisfy {
-            packages {
-                "dep.kotlin" { resolve("org.jetbrains.kotlin:kotlin-osgi-bundle:1.3.50") }
-                "dep.acs-aem-commons" { download("https://github.com/Adobe-Consulting-Services/acs-aem-commons/releases/download/acs-aem-commons-4.0.0/acs-aem-commons-content-4.0.0-min.zip") }
-                "dep.groovy-console" { get("https://github.com/icfnext/aem-groovy-console/releases/download/13.0.0/aem-groovy-console-13.0.0.zip") }
-            }
-        }
-    }   
-}
-```
-
-Or by using shorthand syntax:
 
 ```kotlin
 aem {
@@ -110,19 +94,20 @@ aem {
 }
 ```
 
-OK! Now instance configuration is done. Now it's time for running command:
+OK! Since instance configuration is done it's time for running the command:
 
 `./gradlew instanceSetup`
 
-Let's see what is happening on our HDD. In our project folder we can see now `.instance` directory. It contains all the AEM author files. It there would be a publish, we would see its files as well.
-Frankly speaking, there is a lot more happening behind the scene. GAP is altering startup scripts, monitoring startup process, etc. 
-When instance is up, then GAP is pre-installing CRX packages and performing instance configuration steps (provisioning). 
+Let's see what is happening on our filesystem. In our project folder, we can see now `.instance` directory. It contains all the AEM author files. If there would be a publish, we would see its files as well.
 
-Now we need to wait couple of minutes (5-10) - it is good time for a break.
+Frankly speaking, there is a lot more happening behind the scene. GAP is altering startup scripts, monitoring startup process, etc. 
+When an instance is up, then the GAP is pre-installing CRX packages and performing instance configuration steps (provisioning). 
+
+Now we need to wait a couple of minutes (5-10) - it is a good time for a break.
 
 ## Interactive logs monitoring
 
-Instead of manually looking for error entries in logs, GAP could do that automatically and in interactive manner.
+Instead of manually looking for error entries in logs, GAP could do that automatically and in an interactive manner. 
 
 Simply run:
 
@@ -130,10 +115,18 @@ Simply run:
 ./gradlew instanceTail
 ```
 
-And keep it running in the background. Since now, all errors occurring on running AEM instance will be immediately reported within OS notification / balloon.
+And keep it running in the background. Since now, all errors occurring on running AEM instance will be immediately reported within OS notification/balloon.
 
-Notice that this tool could observe unlimited number of instances at once. No matter if instances are locally running or they are remote.
-Only requirement is to have them accessible over HTTP protocol (no SSH required) so that GAP could poll for new log entries automatically.
+Notice that this tool could observe an unlimited number of instances at once. No matter if instances are locally running or they are remote.
+The only requirement is to have them accessible over HTTP protocol (no SSH required) so that GAP could poll for new log entries automatically.
+
+### Filtering logs
+
+It is very important to listen only to the logs which you are interested in. Otherwise, you would get flooded with a cannonade of unimportant notifications. To filter logs simply edit `gradle/instanceTail/incidentFilter.txt` file and add there log message or only a part of it. Logs that would match those lines will get filtered out. You can use wildcards as well, try:
+
+```text
+org.apache.felix.metatype Missing element * in element OCD
+```
 
 ## Control tasks
 
@@ -169,4 +162,3 @@ restart - Turns off then on AEM local instances and/or virtualized AEM environme
 setup - Sets up local AEM instance(s) and/or virtualized AEM environment.
 up - Turns on AEM local instances and/or virtualized AEM environment.
 ```
-
