@@ -1,11 +1,11 @@
 # Exercise 5: Building CRX packages 
 
-Basically, building CRX package is simple. We need to put into ZIP JCR content and Vault metadata. And also ensure to append build OSGi bundle(s).
+Building a CRX package is simple. We need to put into ZIP JCR content and Vault metadata. And also ensure to append build OSGi bundle(s).
 Things are getting more complicated if we want to extract some CRX package contents to separate packages.
-So sometimes we want to have all-in-one package (which installation is fastest) and sometimes we want to skip reinstalling some contents 
+So sometimes we want to have the all-in-one package (which installation is fastest) and sometimes we want to skip reinstalling some contents 
 to prevent losing content on running AEM instance and in the end installing few separate packages.
 
-GAP is addressing such requirements in a way of full dynamism in composing CRX packages from multiple JCR roots, bundles etc 
+GAP is addressing such requirements in a way of full dynamism in composing CRX packages from multiple JCR roots, bundles, etc. 
 without a need for restructuring a project.
 
 ## Building CRX package with content only
@@ -62,11 +62,11 @@ aem {
 }
 ```
 
-Still, version, classifier and extension remains same. That's because `archiveBaseName` instead of `archiveName` was overridden.
+Still, version, classifier and extension remain the same. That's because `archiveBaseName` instead of `archiveName` was overridden.
 It is good to know the difference!
 
-Notice that, in the end of building package, it is automatically validated.
-Validation requires up-to-date node types definitions stored in built package. 
+Notice that, at the end of a build package is automatically validated.
+Validation requires up-to-date node type definitions stored in built package. 
 However, this kind of file is also synchronized from running AEM instance automatically.
 
 During regular development just remember to save that generated file in VCS (*gradle/package/nodetypes.sync.cnd*) 
@@ -92,7 +92,7 @@ plugins {
 }
 ```
 
-Be aware that bundle plugin underneath is applying official Gradle Java Plugin and GAP package plugin.
+Be aware that bundle plugin underneath is applying the official Gradle Java Plugin and GAP package plugin.
 Its main functionality is running [BND tool](https://bnd.bndtools.org/) to generate OSGi specific attributes for built JAR.
 
 GAP is strongly using paradigm *convention over configuration*. Once we specify:
@@ -128,7 +128,7 @@ public class HelloService {
 }
 ```
 
-And declare compile time dependencies and repositories from which they could be downloaded:
+And declare compile-time dependencies and repositories from which they could be downloaded:
 
 ```kotlin
 repositories {
@@ -195,7 +195,7 @@ Method `bundleExportEmbed` is doing 2 things:
 * it is appending to OSGi manifest attribute `Export-Package` package to be embed.
 * it is adding a project dependency to `compileOnly` configuration.
 
-Another case could be to include additional bundle into built CRX package.
+Another case could be to include an additional bundle into built CRX package.
 
 Simple use `fromJar` method of `packageCompose` task:
 
