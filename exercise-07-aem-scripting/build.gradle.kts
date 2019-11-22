@@ -1,11 +1,11 @@
 plugins {
     id("com.neva.fork")
-    id("com.cognifide.aem.bundle")
     id("com.cognifide.aem.instance")
+    id("com.cognifide.aem.bundle")
     id("com.cognifide.aem.tooling")
 }
 
-version = "0.0.1"
+version = "1.0.0"
 group = "com.company.workshop.aem"
 
 apply(from = "gradle/fork.gradle.kts")
@@ -35,6 +35,17 @@ dependencies {
 }
 
 aem {
+    fileTransfer {
+        smb {
+            user = forkProps["sftpUser"]
+            password = forkProps["sftpPassword"]
+            domain = forkProps["adDomain"]
+        }
+        sftp {
+            user = forkProps["sftpUser"]
+            password = forkProps["sftpPassword"]
+        }
+    }
     tasks {
         instanceProvision {
             step("enable-crxde") {
@@ -56,23 +67,16 @@ aem {
                 "dep.groovy-console"("https://github.com/icfnext/aem-groovy-console/releases/download/13.0.0/aem-groovy-console-13.0.0.zip")
             }
         }
-        register("sftpServer") {
-            doLast {
-                runDocker {
-                    port(2222, 22)
-                    volume(file("build/sftp").apply { mkdirs() }, "/home/foo/upload")
-                    image = "atmoz/sftp"
-                    command = "foo:pass:::upload"
-                }
-            }
-        }
         packageCompose {
             archiveBaseName.set("workshop")
+            fromJar("org.jsoup:jsoup:1.10.2")
+            fromJar("com.github.mickleroy:aem-sass-compiler:1.0.1")
         }
+        bundleExportEmbed("org.hashids:hashids:1.0.1", "org.hashids")
         packageDeploy {
             doLast {
-                aem.sync {
-                    osgiFramework.restartBundle("")
+                this@aem.sync {
+                    osgiFramework.restartBundle("com.adobe.cq.dam.cq-scene7-imaging")
                 }
             }
         }
@@ -80,15 +84,17 @@ aem {
             doLast {
                 authorInstance.sync {
                     groovyConsole.evalCode("""
-                println 'Hello world from inline code!'
-            """)
+                        println 'Hello world from inline code!'
+                    """)
+
+                    groovyConsole.evalScript("hello.groovy")
                 }
             }
         }
-        register("sitesBackup") {
+        register("contentBackup") {
             doLast {
                 authorInstance.sync {
-                    repository.node("/content/example").children().forEach { siteNode ->
+                    repository.node("/content/dam").children().forEach { siteNode ->
                         val sitePkg = packageManager.download {
                             classifier = siteNode.name
                             filter(siteNode.path)
@@ -98,14 +104,6 @@ aem {
                     }
                 }
             }
-        }
-    }
-    fileTransfer {
-        credentials(forkProps["adUser"], forkProps["adPassword"], forkProps["adDomain"])
-
-        sftp {
-            user = forkProps["sftpUser"]
-            password = forkProps["sftpPassword"]
         }
     }
 }

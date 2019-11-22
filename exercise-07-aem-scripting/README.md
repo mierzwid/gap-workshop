@@ -1,9 +1,6 @@
 # Exercise 7: Custom AEM tasks (scripting)
 
-As of `aem` object consists of complete API related with AEM on which
-all tasks are based, we have no limitations to implement own logic to perform any automation around AEM.
-
-Below tasks are just examples of using Gradle AEM DSL.
+`aem` object consists of complete API related to AEM on which all tasks are based. We have no limitations to implement own logic to perform any automation around AEM. Below tasks are just examples of using Gradle AEM DSL.
 
 ## Restart Scene7 bundle after deploying CRX package
 
@@ -12,10 +9,10 @@ aem {
     tasks {
         packageDeploy {
             doLast {
-                sync {
-                    osgiFramework.restartBundle("") // put scene7 bundle symbolic name here
-                }   
-            }       
+                this@aem.sync {
+                    osgiFramework.restartBundle("com.adobe.cq.dam.cq-scene7-imaging")
+                }
+            }
         }   
     }   
 }
@@ -23,8 +20,8 @@ aem {
 
 ## Eval some Groovy Code on AEM instance
 
-Code could be specified directly or inside file.
-Let's create sample script in file *gradle/groovyScript/hello.groovy*:
+The code could be specified directly or inside a file.
+Let's create a sample script in file *gradle/groovyScript/hello.groovy*:
 
 ```groovy
 println 'Hello world from inside separate file!'
@@ -52,26 +49,26 @@ aem {
 
 ## Backup all sites stored on AEM instance
 
-Example below demonstrates how to create backup of content when we does not know which repository paths should be considered.
+The example below demonstrates how to create a backup of content when we do not know which repository paths should be considered.
 GAP offers easy to use `repository` instance service allowing CRUD operations and traversing content. 
-Also provides `packageManager` instance service which has method `download` useful for building CRX packages on-the-fly.
+It also provides `packageManager` instance service which has method `download` useful for building CRX packages on-the-fly.
 
 ```kotlin
 aem {
     tasks {
-        register("sitesBackup") {
+        register("contentBackup") {
             doLast {
                 authorInstance.sync {
-                    repository.node("/content/example").children().forEach { siteNode ->
+                    repository.node("/content/dam").children().forEach { siteNode ->
                         val sitePkg = packageManager.download {
                             classifier = siteNode.name
                             filter(siteNode.path)
                         }
-                        
-                        fileTransfer.uploadTo(forkProps["localInstance.backup.uploadUrl"]!!, sitePkg)    
+
+                        fileTransfer.uploadTo(forkProps["localInstance.backup.uploadUrl"]!!, sitePkg)
                     }
-                } 
-            }       
+                }
+            }
         }   
     }   
 }
