@@ -3,11 +3,26 @@ plugins {
     id("com.cognifide.aem.instance")
 }
 
-version = "0.0.1"
+version = "1.0.0"
 
 apply(from = "gradle/fork.gradle.kts")
 
+repositories {
+    jcenter()
+}
+
 aem {
+    fileTransfer {
+        smb {
+            user = forkProps["sftpUser"]
+            password = forkProps["sftpPassword"]
+            domain = forkProps["adDomain"]
+        }
+        sftp {
+            user = forkProps["sftpUser"]
+            password = forkProps["sftpPassword"]
+        }
+    }
     tasks {
         instanceProvision {
             step("enable-crxde") {
@@ -29,9 +44,5 @@ aem {
                 "dep.groovy-console"("https://github.com/icfnext/aem-groovy-console/releases/download/13.0.0/aem-groovy-console-13.0.0.zip")
             }
         }
-    }
-
-    fileTransfer {
-        credentials(forkProps["adUser"], forkProps["adPassword"], forkProps["adDomain"])
     }
 }

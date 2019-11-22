@@ -17,7 +17,6 @@ configure<ForkExtension> {
                 "adDomain" to {
                     description = "AD domain"
                 },
-                "localInstanceBackupUploadUri" to {},
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()
@@ -39,8 +38,7 @@ configure<ForkExtension> {
                 },
                 "localInstanceQuickstartLicenseUri" to {
                     description = "Quickstart license file (license.properties)"
-                },
-                "localInstanceBackupUploadUri" to {}
+                }
         ))
     }
 }

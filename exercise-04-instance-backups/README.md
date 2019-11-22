@@ -55,47 +55,26 @@ then type
 `./gradlew :instanceSetup`
 
 Take a look at timing. It took on my machine (MacBook Pro, 3,1 GHz Core i5, 16GB of RAM, SSD) exactly 2 minutes in comparison to over 5 minutes when starting from scratch.  
-Additionally, I have the same state that was saved during backup, I might have bundles, applications and content installed, etc. Saving time and reproducibility.
+Additionally, I have the same state that was saved during backup, I have bundles, applications and content installed, etc. Saving time and reproducibility.
 
 ## Remote backups
 
 Working with remote backups is very simple. There is only one configuration option to be specified `localInstance.backup.uploadUrl` plus credentials if those are required.
 
-Let's extend our properties template `gradle/fork/gradle.user.properties.peb` adding those options:
+Where to backup? GAP supports SFTP & SMB protocols for uploads. For our tests, we can use Docker container with SFTP server on:
+
+`docker run -p 2222:22 -d atmoz/sftp foo:pass:::upload`.
+
+Lets extend `gradle/fork/gradle.user.properties.peb`, and configure file transfer for GAP:
 
 ```ini
 sftpUser={{sftpUser}}
 sftpPassword={{sftpPassword}}
-```
 
-and adding under if statement line like below:
-
-```ini
 {% if instanceType == 'local' %}
 localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
 ```
-
-Where to backup? GAP supports SFTP & SMB protocols for uploads. For our tests, we can use Docker container with SFTP server on:
-
-```
-aem {
-    tasks {
-        register("sftpServer") {
-            doLast {
-                runDocker {
-                    port(2222, 22)
-                    volume(file("build/sftp").apply { mkdirs() }, "/home/foo/upload")
-                    image = "atmoz/sftp"
-                    command = "foo:pass:::upload"
-                }
-            }
-        }
-    }
-}
-```
-
-Alternatively use command: `docker run -p 2222:22 -d atmoz/sftp foo:pass:::upload`.
 
 Now we could run `./gradlew :props` to configure credentials for just run SFTP server (user: `foo`, password: `pass`) and backup upload URL (`sftp://localhost:2222/upload`). 
 
