@@ -6,18 +6,18 @@ import com.neva.gradle.fork.ForkExtension
 configure<ForkExtension> {
     properties {
         define(mapOf(
-                "adUser" to {
-                    description = "AD user"
+                "user" to {
+                    description = "user name"
                     defaultValue = System.getProperty("user.name")
                 },
-                "adPassword" to {
-                    description = "AD password"
+                "password" to {
+                    description = "user password"
                     password()
                 },
-                "adDomain" to {
-                    description = "AD domain"
+                "domain" to {
+                    description = "user domain"
+                    optional()
                 },
-                "localInstanceBackupUploadUri" to {},
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()
@@ -39,8 +39,7 @@ configure<ForkExtension> {
                 },
                 "localInstanceQuickstartLicenseUri" to {
                     description = "Quickstart license file (license.properties)"
-                },
-                "localInstanceBackupUploadUri" to {}
+                }
         ))
     }
 }

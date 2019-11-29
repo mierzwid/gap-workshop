@@ -6,19 +6,14 @@ GAP calls itself a "Swiss army knife for AEM related automation." In the case of
 
 ## Configuring file transfer
 
-As of AEM instance, files need to be protected by auth, we need to specify credentials according to instance file URLs.
+AEM instance files need to be protected by auth. We needed to specify credentials to access AEM distribution using one of 3 supported protocols (SMB, SFTP, HTTP). Credentials were configured using Fork Plugin [gradle.user.properties.peb](gradle/fork/gradle.user.properties.peb) and now are available in [gradle.users.properties](gradle.user.properties) file:
 
-To configure same credentials for protocols SMB, SFTP and HTTP with basic auth, append snippet below to *build.gradle.kts*:
-
-```kotlin
-aem {
-    fileTransfer {
-        credentials(forkProps["adUser"], forkProps["adPassword"], forkProps["adDomain"])
-    }
-}
+```properties
+# Project specific configuration
+fileTransfer.user=user.name
+fileTransfer.password={nWVIC40MKSf2Z7sJwlkOXA==}
+fileTransfer.domain=
 ```
-
-Notice that accessing properties by `forkProps[name]` (instead of `project.findProperty(name)`) automatically runs decryption of property value (if it was encrypted).
 
 ## Understanding configuration in `gradle.user.properties`
 

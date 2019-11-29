@@ -10,9 +10,6 @@ repositories {
 }
 
 aem {
-    fileTransfer {
-        credentials(forkProps["adUser"], forkProps["adPassword"], forkProps["adDomain"])
-    }
     tasks {
         instanceProvision {
             step("enable-crxde") {

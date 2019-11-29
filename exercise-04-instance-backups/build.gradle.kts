@@ -12,17 +12,6 @@ repositories {
 }
 
 aem {
-    fileTransfer {
-        smb {
-            user = forkProps["sftpUser"]
-            password = forkProps["sftpPassword"]
-            domain = forkProps["adDomain"]
-        }
-        sftp {
-            user = forkProps["sftpUser"]
-            password = forkProps["sftpPassword"]
-        }
-    }
     tasks {
         instanceProvision {
             step("enable-crxde") {

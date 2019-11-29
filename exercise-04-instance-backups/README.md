@@ -65,38 +65,21 @@ Where to backup? GAP supports SFTP & SMB protocols for uploads. For our tests, w
 
 `docker run -p 2222:22 -d atmoz/sftp foo:pass:::upload`.
 
-Lets extend `gradle/fork/gradle.user.properties.peb`, and configure file transfer for GAP:
+Lets extend `gradle/fork/gradle.user.properties.peb`:
 
 ```ini
-sftpUser={{sftpUser}}
-sftpPassword={{sftpPassword}}
-
 {% if instanceType == 'local' %}
 localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
 ```
 
-Now we could run `./gradlew :props` to configure credentials for just run SFTP server (user: `foo`, password: `pass`) and backup upload URL (`sftp://localhost:2222/upload`). 
+Now we could run `./gradlew :props` to configure credentials to authenticate to SFTP server (user: `foo`, password: `pass`) and backup upload URL (`sftp://localhost:2222/upload`). 
 
-Fork plugin supports encryption, thus you can review `gradle.user.properties` file, it won't contain a plaintext password. The next step is to enable Gradle to decode it. We need to jump into `build.gradle.kts`:
- 
-```kotlin
-aem {
-    fileTransfer {
-        sftp {
-            user = forkProps["sftpUser"]
-            password = forkProps["sftpPassword"]
-        }
-    }
-}
-```
-
-Those few lines will configure credentials for all SFTP connections established by GAP.
+Fork plugin supports encryption, thus you can review `gradle.user.properties` file, it won't contain a plaintext password.
 
 To sum up what we just did:
 1. Started docker container `atmoz/sftp` with an SFTP server on it.
 2. We Configured properties UI to ask for upload URL and credentials
-3. Said GAP how to decode the password using Fork plugin amenities.
 
 Now we can test this configuration, simply type:
 `./gradlew :instanceDown :instanceBackup`

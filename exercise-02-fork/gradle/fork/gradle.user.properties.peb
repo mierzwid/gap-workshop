@@ -1,7 +1,7 @@
 # Project specific configuration
-adUser={{adUser}}
-adPassword={{adPassword}}
-adDomain={{adDomain}}
+fileTransfer.user={{user}}
+fileTransfer.password={{password}}
+fileTransfer.domain={{domain}}
 
 # AEM configuration
 notifier.enabled=true

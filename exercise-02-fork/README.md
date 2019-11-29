@@ -11,9 +11,9 @@ vim gradle/fork/gradle.user.properties.peb
 
 ```pebble
 # Project specific configuration
-adUser={{adUser}}
-adPassword={{adPassword}}
-adDomain={{adDomain}}
+fileTransfer.user={{user}}
+fileTransfer.password={{password}}
+fileTransfer.domain={{domain}}
 
 # AEM configuration
 notifier.enabled=true
@@ -47,17 +47,18 @@ import com.neva.gradle.fork.ForkExtension
 configure<ForkExtension> {
     properties {
         define(mapOf(
-                "adUser" to {
-                    description = "AD user" 
+                "user" to {
+                    description = "user name"
                     defaultValue = System.getProperty("user.name")
                 },
-                "adPassword" to {
-                    description = "AD password"
+                "password" to {
+                    description = "user password"
                     password()
-                },  
-                "adDomain" to {
-                    description = "AD domain"
-                },           
+                },
+                "domain" to {
+                    description = "user domain"
+                    optional()
+                },        
                 "instanceAuthorHttpUrl" to {
                     url("http://localhost:4502")
                     optional()
@@ -95,4 +96,4 @@ Thanks to that, each new developer will have easy start joining your project des
 
 If you noticed that we could commit `gradle.user.properties` file - nice catch. Unfortunately, usually this file contains user credentials (we will see examples later on), so it is better to leave it outside VCS (put it in *.gitignore* file).
 
-Also notice that password are automatically encrypted by Fork plugin. Later on, we will need to decode them before using.
+Also notice that password are automatically encrypted by Fork plugin.

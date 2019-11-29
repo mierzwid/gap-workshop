@@ -1,9 +1,7 @@
 # Project specific configuration
-adUser={{adUser}}
-adPassword={{adPassword}}
-adDomain={{adDomain}}
-sftpUser={{ sftpUser }}
-sftpPassword={{ sftpPassword }}
+fileTransfer.user={{user}}
+fileTransfer.password={{password}}
+fileTransfer.domain={{domain}}
 
 # AEM configuration
 notifier.enabled=true
@@ -19,5 +17,4 @@ instance.local-author.jvmOpts={{instanceJvmOpts}}
 localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
-localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
 {% endif %}
