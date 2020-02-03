@@ -7,7 +7,7 @@ plugins {
 version = "1.0.0"
 group = "com.company.workshop.aem"
 
-apply(from = "gradle/fork.gradle.kts")
+apply(from = "gradle/fork/props.gradle.kts")
 
 repositories {
     jcenter()

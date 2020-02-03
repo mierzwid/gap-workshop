@@ -1,7 +1,7 @@
 # Project specific configuration
-fileTransfer.user={{user}}
-fileTransfer.password={{password}}
-fileTransfer.domain={{domain}}
+fileTransfer.user={{companyUser}}
+fileTransfer.password={{companyPassword}}
+fileTransfer.domain={{companyDomain}}
 
 # AEM configuration
 notifier.enabled=true
@@ -9,8 +9,10 @@ notifier.enabled=true
 {% if instanceAuthorHttpUrl is not empty %}
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
 instance.local-author.type={{instanceType}}
-instance.local-author.runModes={{instanceRunModes}}
-instance.local-author.jvmOpts={{instanceJvmOpts}}
+{% if instanceType == 'local' %}
+instance.local-author.runModes={{localInstanceRunModes}}
+instance.local-author.jvmOpts={{localInstanceJvmOpts}}
+{% endif %}
 {% endif %}
 
 {% if instanceType == 'local' %}

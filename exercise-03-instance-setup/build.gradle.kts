@@ -3,7 +3,7 @@ plugins {
     id("com.cognifide.aem.instance")
 }
 
-apply(from = "gradle/fork.gradle.kts")
+apply(from = "gradle/fork/props.gradle.kts")
 
 repositories {
     jcenter()

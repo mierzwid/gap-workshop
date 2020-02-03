@@ -35,7 +35,7 @@ localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
 ## Configure properties templating
 
 ```
-vim gradle/fork.gradle.kts
+vim gradle/fork/props.gradle.kts
 ```
 
 ```kotlin

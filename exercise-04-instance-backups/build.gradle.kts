@@ -5,7 +5,7 @@ plugins {
 
 version = "1.0.0"
 
-apply(from = "gradle/fork.gradle.kts")
+apply(from = "gradle/fork/props.gradle.kts")
 
 repositories {
     jcenter()
