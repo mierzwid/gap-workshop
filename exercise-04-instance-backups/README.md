@@ -92,9 +92,20 @@ configure<ForkExtension> {
                     label = "Source"
                     description = "Controls how instances will be created (from scratch, backup or any available source)"
                     select(Source.values().map { it.name.toLowerCase() }, Source.AUTO.name.toLowerCase())
-                }
+                },
 
                 // ...
+
+                "localInstanceBackupDownloadUri" to {
+                    label = "Backup Download URI"
+                    description = "For backup file. Protocols supported: SMB/SFTP/HTTP"
+                    optional()
+                },
+                "localInstanceBackupUploadUri" to {
+                    label = "Backup Upload URI"
+                    description = "For directory containing backup files. Protocols supported: SMB/SFTP"
+                    optional()
+                }
         ))
     }
 }
