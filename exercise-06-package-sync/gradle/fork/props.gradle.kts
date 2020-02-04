@@ -1,4 +1,5 @@
 import com.neva.gradle.fork.ForkExtension
+import com.cognifide.gradle.aem.common.instance.local.Source
 
 // this is quirk of Gradle - we cannot access extensions name directly in a applied file
 // in a same way reading in applied file 'the<ForkExtension>().get(propertyName)'
@@ -19,6 +20,11 @@ configure<ForkExtension> {
         ))
 
         define("Local instance", mapOf(
+                "localInstanceSource" to {
+                    label = "Source"
+                    description = "Controls how instances will be created (from scratch, backup or any available source)"
+                    select(Source.values().map { it.name.toLowerCase() }, Source.AUTO.name.toLowerCase())
+                },
                 "localInstanceQuickstartJarUri" to {
                     label = "Quickstart URI"
                     description = "For file named 'cq-quickstart-x.x.x.jar'"

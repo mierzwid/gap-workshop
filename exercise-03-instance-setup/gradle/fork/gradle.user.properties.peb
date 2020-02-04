@@ -12,7 +12,6 @@ instance.local-author.jvmOpts={{localInstanceJvmOpts}}
 {% endif %}
 
 {% if instanceType == 'local' %}
-localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
 {% endif %}
