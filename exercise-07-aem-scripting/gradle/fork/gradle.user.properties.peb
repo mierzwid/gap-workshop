@@ -17,4 +17,6 @@ instance.local-author.jvmOpts={{instanceJvmOpts}}
 localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
+localInstance.backup.uploadUrl={{localInstanceBackupUploadUri}}
+localInstance.backup.downloadUrl={{localInstanceBackupDownloadUri}}
 {% endif %}
