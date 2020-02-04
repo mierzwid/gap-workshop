@@ -9,7 +9,7 @@ aem {
     tasks {
         packageDeploy {
             doLast {
-                this@aem.sync {
+                syncInstances {
                     osgiFramework.restartBundle("com.adobe.cq.dam.cq-scene7-imaging")
                 }
             }
@@ -64,6 +64,7 @@ aem {
                             classifier = siteNode.name
                             filter(siteNode.path)
                         }
+                        // val sitePkg = siteNode.download() // other shorthand
 
                         fileTransfer.uploadTo(forkProps["localInstance.backup.uploadUrl"]!!, sitePkg)
                     }
