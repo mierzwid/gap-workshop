@@ -123,12 +123,12 @@ Fork plugin supports encryption, thus you can review `gradle.user.properties` fi
 
 To sum up what we just did:
 1. Started docker container `atmoz/sftp` with an SFTP server on it.
-2. We Configured properties UI to ask for upload URL and credentials
+2. We configured properties UI to ask for upload URL and credentials
 
 Now we can test this configuration, simply type:
-`./gradlew :instanceDown :instanceBackup`
+`./gradlew :instanceBackup -Pinstance.backup.mode=upload_only`
 
-What happens now? Backup goes in the same way as before, first, it prepares backup locally but additionally, in the end, it uploads the backup file to configured URL.
+What happens now? We are reusing previously created backup - uploading backup file to configured URL.
 
 Now backup is accessible for download to all your teammates. Anyone at your team can have this configuration and all your backups will get uploaded to configured location. Each backup by default has timestamp included in its name this way even heavy collaboration is supported. What is convenient, when restoring from remote backup, GAP by default picks the most recent one to download so you can stay in sync!
 
