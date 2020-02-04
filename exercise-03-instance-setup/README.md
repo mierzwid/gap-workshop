@@ -9,7 +9,6 @@ GAP calls itself a "Swiss army knife for AEM related automation." In the case of
 AEM instance files need to be protected by auth. We needed to specify credentials to access AEM distribution using one of 3 supported protocols (SMB, SFTP, HTTP). Credentials were configured using Fork Plugin [gradle.user.properties.peb](gradle/fork/gradle.user.properties.peb) and now are available in [gradle.users.properties](gradle.user.properties) file:
 
 ```properties
-# Project specific configuration
 fileTransfer.user=user.name
 fileTransfer.password={nWVIC40MKSf2Z7sJwlkOXA==}
 fileTransfer.domain=
@@ -20,8 +19,6 @@ fileTransfer.domain=
 Our generated properties file contains a section that directly configures our local AEM author instance. We skipped publish on purpose, to leave your machine a few free bytes of RAM.
 
 Since `type` option is set to `local` other options like `runModes` and `jvmOpts` are vital.
-
-Additionally, we have `localInstance.source` set to `auto`. GAP will then try to find the quickest way to setup our instance - preferably from backup. Knowing, there are no backups yet, we can expect the creation of a fresh instance from `cq-quickstart-6.5.0.jar` file.
 
 ```properties
 instance.local-author.httpUrl=http://localhost:4502
@@ -40,7 +37,17 @@ Notice: It is also possible to configure all of this in `build.gradle.kts` file 
  
 ## Applying instance plugin
 
-Add in our `build.gradle.kts`
+As of we already provided required properties for setting up local instance, the last thing is to only apply the instance plugin.
+As of instance plugin implicitly applies also common plugin, replace in our `build.gradle.kts`:
+
+```kotlin
+plugins {
+    // ...
+    id("com.cognifide.aem.common")
+}
+```
+
+with:
 
 ```kotlin
 plugins {
@@ -49,7 +56,7 @@ plugins {
 }
 ```
 
-Generally, that's it. However, OOTB AEM instance has disabled CRXDE Lite. 
+Generally, that's it. However, OOTB AEM instance in production mode (with `nosamplecontent` run mode) has disabled CRXDE Lite. 
 Let's enable it by defining a step in `instanceProvision` task:
 
 ```kotlin
@@ -86,6 +93,19 @@ aem {
             }
         }
     }   
+}
+```
+
+Let's check that our bundles and packages are properly configured. We could resolve them on demand by running:
+ 
+`./gradlew instanceResolve`.
+
+If fails, why? One of packages to be satisfied is not a valid CRX package, but is a Maven dependency (pointing to OSGi bundle JAR which will be converted to CRX package on the fly), so we have to define some Maven repository from which artifact could be downloaded.
+Simply add to *build.gradle.kts* snippet below then rerun resolve task again.
+
+```kotlin
+repositories {
+    jcenter()
 }
 ```
 
