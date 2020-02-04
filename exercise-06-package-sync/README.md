@@ -11,14 +11,14 @@ Add in `build.gradle.kts`
 ```kotlin
 plugins {
     // ...
-    id("com.cognifide.aem.tooling")
+    id("com.cognifide.aem.package.sync")
 }
 ```
 
-Now task named `sync` is available to use. Simply run it:
+Now task named `packageSync` is available to use. Simply run it:
 
 ```bash
-./gradlew :sync
+./gradlew :packageSync
 ```
 
 GAP supports 2 types of JCR content transports. 
@@ -31,7 +31,7 @@ By default, GAP is using *package_download* transport as it is much quicker beca
 Try playing with VLT checkout mode and compare results:
 
 ```
-./gradlew :sync -Psync.type=vlt_checkout
+./gradlew :packageSync -Ppackage.sync.type=vlt_checkout
 ```
 
 The results should be the same, but the time consumed... The GAP default transport method is much more effective.
@@ -56,4 +56,13 @@ Simply copy origin file *filter.xml* then specify exclusions.
     </filter>
 </workspaceFilter>
 
+```
+
+
+## Checking any nodes specified via command line property
+
+Simply use property:
+
+```
+./gradlew :packageSync -Pfilter.roots=[/content/dam/workshop]
 ```
