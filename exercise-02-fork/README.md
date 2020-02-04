@@ -10,16 +10,21 @@ vim gradle/fork/gradle.user.properties.peb
 ```
 
 ```pebble
-notifier.enabled=true
-
 fileTransfer.user={{companyUser}}
 fileTransfer.password={{companyPassword}}
 fileTransfer.domain={{companyDomain}}
 
+notifier.enabled=true
+
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
 instance.local-author.type={{instanceType}}
+{% if instanceType == 'local' %}
+instance.local-author.runModes={{localInstanceRunModes}}
+instance.local-author.jvmOpts={{localInstanceJvmOpts}}
+{% endif %}
 
 {% if instanceType == 'local' %}
+localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
 {% endif %}
@@ -60,6 +65,14 @@ configure<ForkExtension> {
                 "localInstanceQuickstartLicenseUri" to {
                     label = "Quickstart License URI"
                     description = "For file named 'license.properties'"
+                },
+                "localInstanceRunModes" to {
+                    label = "Run Modes"
+                    text("local,nosamplecontent")
+                },
+                "localInstanceJvmOpts" to {
+                    label = "JVM Options"
+                    text("-server -Xmx2048m -XX:MaxPermSize=512M -Djava.awt.headless=true")
                 }
         ))
 

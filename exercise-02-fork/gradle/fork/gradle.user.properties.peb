@@ -1,13 +1,18 @@
-notifier.enabled=true
-
 fileTransfer.user={{companyUser}}
 fileTransfer.password={{companyPassword}}
 fileTransfer.domain={{companyDomain}}
 
+notifier.enabled=true
+
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
 instance.local-author.type={{instanceType}}
+{% if instanceType == 'local' %}
+instance.local-author.runModes={{localInstanceRunModes}}
+instance.local-author.jvmOpts={{localInstanceJvmOpts}}
+{% endif %}
 
 {% if instanceType == 'local' %}
+localInstance.source={{ localInstanceSource }}
 localInstance.quickstart.jarUrl={{ localInstanceQuickstartJarUri }}
 localInstance.quickstart.licenseUrl={{ localInstanceQuickstartLicenseUri }}
 {% endif %}

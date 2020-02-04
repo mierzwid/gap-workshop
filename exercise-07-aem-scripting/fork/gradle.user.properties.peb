@@ -1,18 +1,14 @@
-# Project specific configuration
 fileTransfer.user={{companyUser}}
 fileTransfer.password={{companyPassword}}
 fileTransfer.domain={{companyDomain}}
 
-# AEM configuration
 notifier.enabled=true
 
-{% if instanceAuthorHttpUrl is not empty %}
 instance.local-author.httpUrl={{instanceAuthorHttpUrl}}
 instance.local-author.type={{instanceType}}
 {% if instanceType == 'local' %}
 instance.local-author.runModes={{localInstanceRunModes}}
 instance.local-author.jvmOpts={{localInstanceJvmOpts}}
-{% endif %}
 {% endif %}
 
 {% if instanceType == 'local' %}

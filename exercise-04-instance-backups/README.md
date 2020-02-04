@@ -6,9 +6,11 @@ The setup of an AEM instance(s) can be time-consuming. Especially when we have b
 
 Performing local backup is straightforward. We don't need to have any additional configuration. There is only one requirement, we need to have at least one extracted AEM instance.
 
-To give our backup files nice names, lets configure version for our project (`build.gradle.kts`):
+To give our backup files nice names, lets configure version for our project (`gradle.properties`):
 
-`version = "0.0.1"` 
+```ini
+version=1.0.0-SNAPSHOT
+```
 
 Then simply type:
 
@@ -18,7 +20,7 @@ Again, like everything connected to whole AEM instance management, it will take 
 
 What happens? 
 1. If you have your author on then GAP will take it down (`:instanceDown`), 
-2. then it will compress entire `.instance` folder to snapshot all your instances 
+2. then it will compress entire `.instance` folder to make a snapshot of all your instances 
 3. and save it as a local file in projects build directory: `build/aem/instanceBackup/local/xxx.backup.zip`.
 
 The approximate size of an author backup for AEM 6.5 is ~1.7 GB.

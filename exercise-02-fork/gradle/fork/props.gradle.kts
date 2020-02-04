@@ -26,6 +26,14 @@ configure<ForkExtension> {
                 "localInstanceQuickstartLicenseUri" to {
                     label = "Quickstart License URI"
                     description = "For file named 'license.properties'"
+                },
+                "localInstanceRunModes" to {
+                    label = "Run Modes"
+                    text("local,nosamplecontent")
+                },
+                "localInstanceJvmOpts" to {
+                    label = "JVM Options"
+                    text("-server -Xmx2048m -XX:MaxPermSize=512M -Djava.awt.headless=true")
                 }
         ))
 

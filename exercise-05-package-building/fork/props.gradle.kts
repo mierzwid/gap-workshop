@@ -1,4 +1,3 @@
-import com.cognifide.gradle.aem.common.instance.local.Source
 import com.neva.gradle.fork.ForkExtension
 
 // this is quirk of Gradle - we cannot access extensions name directly in a applied file
@@ -15,22 +14,11 @@ configure<ForkExtension> {
                 "instanceAuthorHttpUrl" to {
                     label = "Author HTTP URL"
                     url("http://localhost:4502")
-                    optional()
                     description = "For accessing AEM author instance (leave empty to do not use it)"
-                },
-                "instancePublishHttpUrl" to {
-                    label = "Publish HTTP URL"
-                    url(/*"http://localhost:4503"*/)
-                    optional()
-                    description = "For accessing AEM publish instance (leave empty to do not use it)"
                 }
         ))
+
         define("Local instance", mapOf(
-                "localInstanceSource" to {
-                    label = "Source"
-                    description = "Controls how instances will be created (from scratch, backup or any available source)"
-                    select(Source.values().map { it.name.toLowerCase() }, Source.AUTO.name.toLowerCase())
-                },
                 "localInstanceQuickstartJarUri" to {
                     label = "Quickstart URI"
                     description = "For file named 'cq-quickstart-x.x.x.jar'"
@@ -38,6 +26,14 @@ configure<ForkExtension> {
                 "localInstanceQuickstartLicenseUri" to {
                     label = "Quickstart License URI"
                     description = "For file named 'license.properties'"
+                },
+                "localInstanceRunModes" to {
+                    label = "Run Modes"
+                    text("local,nosamplecontent")
+                },
+                "localInstanceJvmOpts" to {
+                    label = "JVM Options"
+                    text("-server -Xmx2048m -XX:MaxPermSize=512M -Djava.awt.headless=true")
                 },
                 "localInstanceBackupDownloadUri" to {
                     label = "Backup Download URI"
@@ -48,16 +44,9 @@ configure<ForkExtension> {
                     label = "Backup Upload URI"
                     description = "For directory containing backup files. Protocols supported: SMB/SFTP"
                     optional()
-                },
-                "localInstanceRunModes" to {
-                    label = "Run Modes"
-                    text("local,nosamplecontent")
-                },
-                "localInstanceJvmOpts" to {
-                    label = "JVM Options"
-                    text("-server -Xmx2048m -XX:MaxPermSize=512M -Djava.awt.headless=true")
                 }
         ))
+
         define("File transfer", mapOf(
                 "companyUser" to {
                     label = "User"
