@@ -50,20 +50,20 @@ Let's build a package:
 ./gradlew :packageCompose
 ```
 
-See that, built package name is derived from project name (*exercise-05-package-building*). We could override it by writing:
+See that, built package name is derived from project name (*workshop* set in *settings.gradle.kts*). We could override it by writing:
 
 ```kotlin
 aem {
     tasks {
         packageCompose {
-            archiveBaseName.set("workshop")
+            archiveBaseName.set("my-workshop")
         }   
     }   
 }
 ```
 
 Still, version, classifier and extension remain the same. That's because `archiveBaseName` instead of `archiveName` was overridden.
-It is good to know the difference!
+It is good to know the difference! It is because `packageCompose` task inherits from Gradle [ZIP](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.bundling.Zip.html) task.
 
 Notice that, at the end of a build package is automatically validated.
 Validation requires up-to-date node type definitions stored in built package. 
@@ -71,6 +71,8 @@ However, this kind of file is also synchronized from running AEM instance automa
 
 During regular development just remember to save that generated file in VCS (*gradle/package/nodetypes.sync.cnd*) 
 so that building CRX package without any AEM instance available (e.g on Jenkins) will be also possible.
+
+Try playing with CRX package validation. Introduce character '&' in `jcr:title` property, rename temporarily *filter.xml* file etc.
 
 ## Building CRX package with OSGi bundle
 
@@ -133,24 +135,24 @@ And declare compile-time dependencies and repositories from which they could be 
 ```kotlin
 repositories {
     jcenter()
-    maven { url = uri("https://repo.adobe.com/nexus/content/groups/public") }
+    maven("https://repo.adobe.com/nexus/content/groups/public")
 }
 
 dependencies {
-    compileOnly( "org.osgi:osgi.cmpn:6.0.0")
-    compileOnly( "org.osgi:org.osgi.core:6.0.0")
-    compileOnly( "javax.servlet:servlet-api:2.5")
-    compileOnly( "javax.servlet:jsp-api:2.0")
-    compileOnly( "javax.jcr:jcr:2.0")
-    compileOnly( "org.slf4j:slf4j-api:1.7.25")
-    compileOnly( "org.apache.geronimo.specs:geronimo-atinject_1.0_spec:1.0")
-    compileOnly( "org.apache.sling:org.apache.sling.api:2.16.4")
-    compileOnly( "org.apache.sling:org.apache.sling.jcr.api:2.4.0")
-    compileOnly( "org.apache.sling:org.apache.sling.models.api:1.3.6")
-    compileOnly( "org.apache.sling:org.apache.sling.settings:1.3.8")
-    compileOnly( "com.google.guava:guava:15.0")
-    compileOnly( "com.google.code.gson:gson:2.8.2")
-    compileOnly( "joda-time:joda-time:2.9.1")
+    compileOnly("org.osgi:osgi.cmpn:6.0.0")
+    compileOnly("org.osgi:org.osgi.core:6.0.0")
+    compileOnly("javax.servlet:servlet-api:2.5")
+    compileOnly("javax.servlet:jsp-api:2.0")
+    compileOnly("javax.jcr:jcr:2.0")
+    compileOnly("org.slf4j:slf4j-api:1.7.25")
+    compileOnly("org.apache.geronimo.specs:geronimo-atinject_1.0_spec:1.0")
+    compileOnly("org.apache.sling:org.apache.sling.api:2.16.4")
+    compileOnly("org.apache.sling:org.apache.sling.jcr.api:2.4.0")
+    compileOnly("org.apache.sling:org.apache.sling.models.api:1.3.6")
+    compileOnly("org.apache.sling:org.apache.sling.settings:1.3.8")
+    compileOnly("com.google.guava:guava:15.0")
+    compileOnly("com.google.code.gson:gson:2.8.2")
+    compileOnly("joda-time:joda-time:2.9.1")
 
     compileOnly("com.adobe.aem:uber-jar:6.5.0:apis")
 }
@@ -184,6 +186,7 @@ And let's use it:
 class HelloService {
     private static final Hashids HASHER = new Hashids();
     
+    @Activate
     protected void activate() {
         LOG.info("Hash ID for current timestamp is '{}'", HASHER.encode(System.currentTimeMillis()));
     }
@@ -225,3 +228,26 @@ It is connected with advanced AEM instance stability checking which is performed
 
 To disable it, simply append `-Ppackage.deploy.awaited=false`, but then do not be surprised when you will don't know when your application is ready to use.
 GAP instance checking is helping in detecting that moment to be able to work more comfortably and preventing requesting built AEM pages when our application is not stable.
+
+
+## Deploying OSGi bundles (only)
+
+Simply write:
+
+```bash
+./gradlew :bundleInstall
+```
+
+Note that GAP supports distributed type of package deploy (`packageDeploy -Ppackage.deploy.distributed=true`), which firstly installs CRX package on author instance, then replicates (activates) it to publish instance.
+When operating on OSGi bundles, there is no such feature as OSGi bundle replication. 
+
+
+## Skipping OSGi bundle in health checking
+
+After each OSGi bundle installation or CRX package deployment, GAP awaits for healthy condition of AEM instances.
+Sometimes, we intentionally want to have some bundle disabled. To configure it, use dedicated [DSL](https://github.com/Cognifide/gradle-aem-plugin#task-instanceawait) or properties, e.g:
+
+*gradle.properties*
+```ini
+instance.awaitUp.bundles.symbolicNamesIgnored=org.apache.sling.jcr.webdav,com.adobe.granite.crxde-lite
+```

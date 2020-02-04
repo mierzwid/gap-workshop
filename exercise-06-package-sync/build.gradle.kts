@@ -5,7 +5,6 @@ plugins {
     id("com.cognifide.aem.tooling")
 }
 
-version = "1.0.0"
 group = "com.company.workshop.aem"
 
 apply(from = "gradle/fork/props.gradle.kts")
