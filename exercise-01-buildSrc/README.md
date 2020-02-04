@@ -8,9 +8,9 @@ repositories {
     gradlePluginPortal()
 
     // For GAP
-    maven { url = uri("http://dl.bintray.com/cognifide/maven-public") }
+    maven("http://dl.bintray.com/cognifide/maven-public")
     // For Fork
-    maven { url = uri("https://dl.bintray.com/neva-dev/maven-public") }
+    maven("https://dl.bintray.com/neva-dev/maven-public")
 }
 ```
 
