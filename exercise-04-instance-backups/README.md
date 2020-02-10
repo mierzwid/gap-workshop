@@ -117,7 +117,11 @@ configure<ForkExtension> {
 We just performed one extra step in our configuration - added a capability for build users to choose how GAP will create instance - from scratch, restore from local backup, restore from remote backup etc. 
 It is absolutely optional - by default, GAP will automatically determine how to create instance - will select best option for you from all available AEM sources.
 
-Now we could run `./gradlew :props` to configure credentials to authenticate to SFTP server (user: `foo`, password: `pass`) and backup upload URL (`sftp://localhost:2222/upload`). 
+Now we could run `./gradlew :props` to configure credentials to authenticate to SFTP server (user: `foo`, password: `pass`) and backup upload URL (`sftp://localhost:2222/upload`).
+
+*WARNING:* In case you are using Docker Toolbox on Windows, instead of using `localhost` you need to specify IP address advertised by Docker on startup:
+
+`docker-machine ip default` 
 
 Fork plugin supports encryption, thus you can review `gradle.user.properties` file, it won't contain a plaintext password.
 
